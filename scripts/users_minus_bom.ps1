@@ -7,10 +7,10 @@ param (
     [switch]$Elevated
 )
 
-if (-not $Elevated) {
-    Start-Process powershell.exe -ArgumentList "-File `"$PSCommandPath`" -Elevated" -Verb RunAs -Wait -NoNewWindow
-    exit
-}
+# if (-not $Elevated) {
+#     Start-Process powershell.exe -ArgumentList "-File `"$PSCommandPath`" -Elevated" -Verb RunAs -Wait -NoNewWindow
+#     exit
+# }
 
 # Definir política de execução apenas se necessário
 if ((Get-ExecutionPolicy -Scope Process) -ne "Bypass") {

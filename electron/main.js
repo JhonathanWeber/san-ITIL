@@ -26,7 +26,7 @@ ipcMain.handle("run-powershell", () => {
     const scriptPath = path.join(__dirname, "../scripts/users_minus_bom.ps1");
 
     // Executa o PowerShell como administrador rodando o script diretamente
-    const command = `powershell.exe -Command "Start-Process powershell -ArgumentList '-ExecutionPolicy Bypass -File \\"${scriptPath}\\"' -Verb RunAs"`;
+    const command = `powershell.exe -ExecutionPolicy Bypass "${scriptPath}"`;
 
     exec(command, (error) => {
       if (error) reject(error.message);
