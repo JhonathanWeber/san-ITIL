@@ -4,9 +4,10 @@ param (
 )
 
 if (-not $Elevated) {
-    Start-Process powershell.exe -ArgumentList "-File "$PSCommandPath" -Elevated" -Verb RunAs
+    Start-Process powershell.exe -ArgumentList "-File `"$PSCommandPath`" -Elevated" -Verb RunAs -Wait -NoNewWindow
     exit
 }
+
 
 # Definir política de execução
 Set-ExecutionPolicy Bypass -Scope Process -Force
@@ -189,3 +190,5 @@ Stop-Transcript
 
 Write-Host "Script concluído! Reinicie o sistema para aplicar todas as alterações." -ForegroundColor Green
 Start-Sleep -Seconds 5
+Write-Host "Pressione Enter para sair..." -ForegroundColor Cyan
+Read-Host
