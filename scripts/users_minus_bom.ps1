@@ -124,17 +124,18 @@ Start-Sleep -Seconds 2
 
 $grupoAdministradores = "Administradores"
 $usuariosParaAdicionar = @("user", "sanemar")
+
 Write-Host "Adicionando usuários ao grupo '$grupoAdministradores'..." -ForegroundColor Cyan
 
-foreach ($usuario in $usuariosAtivos) {
+foreach ($usuario in $usuariosParaAdicionar) {
     try {
-        Disable-LocalUser -Name $usuario.Name -ErrorAction SilentlyContinue
-        Write-Host "Usuário inativado: $($usuario.Name)" -ForegroundColor Green
-    } catch {
-        Write-Host "Falha ao inativar usuário '$($usuario.Name)': $_" -ForegroundColor Red
+        Add-LocalGroupMember -Group $grupoAdministradores -Member $usuario -ErrorAction Stop
+        Write-Host "Usuário '$usuario' adicionado ao grupo '$grupoAdministradores'." -ForegroundColor Green
+    }
+    catch {
+        Write-Host "Falha ao adicionar usuário '$usuario' ao grupo '$grupoAdministradores': $_" -ForegroundColor Red
     }
 }
-
 # ===============================================
 # ❓ Pergunta sobre inativação de usuários ativos
 # ===============================================
