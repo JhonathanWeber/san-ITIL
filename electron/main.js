@@ -22,10 +22,10 @@ app.whenReady().then(createWindow);
 ipcMain.handle("run-powershell", (_, command) => {
   return new Promise((resolve, reject) => {
     exec(
-      `powershell.exe -Command "Start-Process powershell -ArgumentList '-ExecutionPolicy Bypass -Command ${command}' -Verb RunAs"`,
-      (error, stdout, stderr) => {
+      `powershell.exe -Command "Start-Process powershell -Verb RunAs"`,
+      (error) => {
         if (error) reject(error.message);
-        else resolve(stdout || stderr);
+        else resolve("PowerShell aberto com sucesso!");
       }
     );
   });
