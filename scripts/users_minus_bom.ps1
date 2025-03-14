@@ -40,17 +40,34 @@ Start-Sleep -Seconds 3
 Write-Host "Iniciando processo de verificação e ajustes nos usuários..." -ForegroundColor Cyan
 
 # Remover usuários com nomes fora do padrão
-$usuariosParaRemover = @("User", "Sanemar", "USER", "SANEMAR")
-foreach ($usuario in $usuariosParaRemover) {
+$usuariosParaRenomear = @("User", "Sanemar", "USER", "SANEMAR")
+
+foreach ($usuario in $usuariosParaRenomear) {
+    # Verifica se o usuário existe com o nome atual
     $usuarioEncontrado = Get-LocalUser -Name $usuario -ErrorAction SilentlyContinue
+
     if ($usuarioEncontrado) {
-        Write-Host "Removendo usuário com nome fora do padrão: $usuario" -ForegroundColor Yellow
-        try {
-            Remove-LocalUser -Name $usuario -ErrorAction Stop
-            Write-Host "Usuário removido: $usuario" -ForegroundColor Green
-        } catch {
-            Write-Host "Falha ao remover usuário $usuario" -ForegroundColor Red
+        # Define novo nome totalmente em minúsculas
+        $novoNome = $usuario.ToLower()
+
+        # Verifica se o novo nome já existe para evitar conflitos
+        $usuarioJaExiste = Get-LocalUser -Name $novoNome -ErrorAction SilentlyContinue
+        if ($usuarioJaExiste) {
+            Write-Host "Não é possível renomear '$usuario' para '$novoNome' pois o usuário '$novoNome' já existe." -ForegroundColor Red
+            continue
         }
+
+        Write-Host "Renomeando usuário '$usuario' para '$novoNome'..." -ForegroundColor Cyan
+
+        try {
+            Rename-LocalUser -Name $usuario -NewName $novoNome -ErrorAction Stop
+            Write-Host "Usuário '$usuario' renomeado com sucesso para '$novoNome'." -ForegroundColor Green
+        }
+        catch {
+            Write-Host "Falha ao renomear usuário '$usuario': $_" -ForegroundColor Red
+        }
+    } else {
+        Write-Host "Usuário '$usuario' não encontrado." -ForegroundColor Yellow
     }
 }
 
