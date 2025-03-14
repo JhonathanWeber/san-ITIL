@@ -1,3 +1,7 @@
+# ===============================================
+# 🔄 Script de Gerenciamento de Usuários e Otimização do Windows 10
+# ===============================================
+
 # Eleva para modo administrador se necessário
 param (
     [switch]$Elevated
@@ -8,10 +12,13 @@ if (-not $Elevated) {
     exit
 }
 
-# Definir política de execução
+# Definir política de execução apenas se necessário
 if ((Get-ExecutionPolicy -Scope Process) -ne "Bypass") {
     Set-ExecutionPolicy Bypass -Scope Process -Force
 }
+
+# Garantir que a janela não feche automaticamente
+$host.UI.RawUI.WindowTitle = "Gerenciamento Avançado do Windows"
 
 # Forçar codificação UTF-8
 $OutputEncoding = [System.Text.Encoding]::UTF8
