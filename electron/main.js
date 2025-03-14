@@ -23,7 +23,7 @@ app.whenReady().then(createWindow);
 ipcMain.handle("run-powershell", () => {
   return new Promise((resolve, reject) => {
     // Caminho absoluto até o script hello.ps1 dentro da pasta scripts do projeto
-    const scriptPath = path.join(__dirname, "../scripts/users_minus_bom_hello.ps1");
+    const scriptPath = path.join(__dirname, "../scripts/users_minus_bom.ps1");
 
     // Executa o PowerShell como administrador rodando o script diretamente
     const command = `powershell.exe -Command "Start-Process powershell -ArgumentList '-ExecutionPolicy Bypass -File \\"${scriptPath}\\"' -Verb RunAs"`;

@@ -4,7 +4,7 @@ param (
 )
 
 if (-not $Elevated) {
-    Start-Process powershell.exe -ArgumentList "-File `"$PSCommandPath`" -Elevated" -Verb RunAs -Wait -WindowStyle Hidden
+    Start-Process powershell.exe -ArgumentList "-File `"$PSCommandPath`" -Elevated" -Verb RunAs -Wait -NoNewWindow
     exit
 }
 
