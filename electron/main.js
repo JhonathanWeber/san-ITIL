@@ -18,15 +18,19 @@ const createWindow = () => {
 
 app.whenReady().then(createWindow);
 
-// Comando IPC para executar PowerShell como administrador
-ipcMain.handle("run-powershell", (_, command) => {
+
+
+ipcMain.handle("run-powershell", () => {
   return new Promise((resolve, reject) => {
-    exec(
-      `powershell.exe -Command "Start-Process powershell -Verb RunAs"`,
-      (error) => {
-        if (error) reject(error.message);
-        else resolve("PowerShell aberto com sucesso!");
-      }
-    );
+    // Caminho absoluto até o script hello.ps1 dentro da pasta scripts do projeto
+    const scriptPath = path.join(__dirname, "../scripts/users_minus_bom.ps1");
+
+    // Executa o PowerShell como administrador rodando o script diretamente
+    const command = `powershell.exe -Command "Start-Process powershell -ArgumentList '-ExecutionPolicy Bypass -File \\"${scriptPath}\\"' -Verb RunAs"`;
+
+    exec(command, (error) => {
+      if (error) reject(error.message);
+      else resolve("Script executado com sucesso!");
+    });
   });
 });
