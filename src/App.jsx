@@ -3,7 +3,7 @@ import "./App.css";
 function App() {
   const handleClick = async () => {
     try {
-      const response = await window.electronAPI.runPowerShell("notepad.exe");
+      const response = await window.electronAPI.runPowerShell();
       alert("Sucesso: " + response);
     } catch (error) {
       alert("Erro: " + error);
